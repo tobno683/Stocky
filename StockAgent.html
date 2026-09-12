@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heta segment & uppstickare 2026 — spaningsdigest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0E16; --surface:#131A26; --surface-2:#1A2230; --line:#26304240;
+    --text:#E8ECF1; --text-soft:#8A94A6; --text-faint:#5A6478;
+    --robotics:#FFB84D; --space:#4DD9FF; --quantum:#B983FF; --defense:#FF6B4A;
+    --robotics-dim:#FFB84D1A; --space-dim:#4DD9FF1A; --quantum-dim:#B983FF1A; --defense-dim:#FF6B4A1A;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Inter',sans-serif; font-size:16px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+  a{color:inherit;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:90px 0 60px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, #4DD9FF14, transparent),
+      radial-gradient(ellipse 900px 500px at 90% 10%, #FFB84D10, transparent),
+      var(--bg);
+    border-bottom:1px solid #ffffff0d;
+  }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-soft);
+    margin-bottom:28px;
+  }
+  .hero-eyebrow .pulse{
+    width:7px; height:7px; border-radius:50%; background:var(--space);
+    box-shadow:0 0 0 0 #4DD9FF80; animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 #4DD9FF60;}
+    70%{box-shadow:0 0 0 8px #4DD9FF00;}
+    100%{box-shadow:0 0 0 0 #4DD9FF00;}
+  }
+  .hero h1{
+    font-size:clamp(34px, 5vw, 54px); line-height:1.08; max-width:780px;
+    margin-bottom:22px;
+  }
+  .hero h1 .accent{color:var(--space);}
+  .hero-sub{
+    font-size:18px; color:var(--text-soft); max-width:620px; line-height:1.6;
+    margin-bottom:16px;
+  }
+  .hero-note{
+    font-size:13.5px; color:var(--text-faint); max-width:640px; line-height:1.6;
+    border-left:2px solid #ffffff1a; padding-left:14px; margin-bottom:52px;
+  }
+
+  /* ---------- Spectrum overview band ---------- */
+  .spectrum{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px;
+    background:#ffffff0d; border:1px solid #ffffff0d; border-radius:10px; overflow:hidden;
+  }
+  .spectrum-cell{
+    background:var(--surface); padding:22px 20px; text-decoration:none; color:inherit;
+    display:flex; flex-direction:column; gap:10px; transition:background .15s ease;
+    border-top:3px solid var(--seg-color);
+  }
+  .spectrum-cell:hover{background:var(--surface-2);}
+  .spectrum-label{
+    font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--seg-color);
+  }
+  .spectrum-stat{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:26px; line-height:1.15;}
+  .spectrum-desc{font-size:12.5px; color:var(--text-soft); line-height:1.5;}
+
+  @media (max-width:760px){
+    .spectrum{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:480px){
+    .spectrum{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Segment sections ---------- */
+  .segment{padding:80px 0;}
+  .segment:not(:last-of-type){border-bottom:1px solid #ffffff0d;}
+  .segment-head{
+    display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;
+    margin-bottom:8px;
+  }
+  .segment-tag{
+    font-family:'JetBrains Mono',monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--seg-color);
+    padding:4px 10px; border:1px solid var(--seg-color); border-radius:100px;
+  }
+  .segment h2{font-size:clamp(24px, 3.4vw, 32px); color:var(--text);}
+  .segment-why{
+    max-width:680px; color:var(--text-soft); font-size:15.5px; line-height:1.65;
+    margin:20px 0 12px;
+  }
+  .segment-signal{
+    max-width:680px; font-size:14.5px; line-height:1.65; color:var(--text);
+    background:var(--seg-dim); border-left:3px solid var(--seg-color);
+    padding:14px 18px; border-radius:0 6px 6px 0; margin-bottom:40px;
+  }
+  .segment-signal .mono{color:var(--seg-color); font-weight:600;}
+
+  /* ---------- Company cards ---------- */
+  .companies{display:flex; flex-direction:column; gap:1px; background:#ffffff0d; border-radius:10px; overflow:hidden; border:1px solid #ffffff0d;}
+  .company{
+    background:var(--surface); padding:26px 28px;
+    border-left:3px solid var(--seg-color);
+    display:grid; grid-template-columns:220px 1fr; gap:24px;
+  }
+  .company-name-block{display:flex; flex-direction:column; gap:6px;}
+  .company-name{font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:19px;}
+  .company-loc{font-size:12.5px; color:var(--text-faint);}
+  .company-badge{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10.5px;
+    color:var(--seg-color); background:var(--seg-dim); padding:3px 8px; border-radius:4px;
+    width:fit-content; margin-top:4px;
+  }
+  .company-body{display:flex; flex-direction:column; gap:14px;}
+  .company-desc{font-size:14.5px; line-height:1.6; color:var(--text);}
+  .company-fields{display:flex; flex-direction:column; gap:10px;}
+  .field{display:grid; grid-template-columns:88px 1fr; gap:12px; font-size:13.5px; line-height:1.55;}
+  .field-label{
+    font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:.04em; color:var(--text-faint); padding-top:2px;
+  }
+  .field-val{color:var(--text-soft);}
+  .field-val .hl{color:var(--text); font-weight:600;}
+  .field-val .mono{color:var(--seg-color);}
+
+  @media (max-width:640px){
+    .company{grid-template-columns:1fr; gap:14px;}
+    .field{grid-template-columns:100%;}
+    .field-label{padding-top:0;}
+  }
+
+  /* ---------- IPO table ---------- */
+  .ipo-table{width:100%; border-collapse:collapse; font-size:14px; margin-top:8px;}
+  .ipo-table th{
+    text-align:left; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:.05em; color:var(--text-faint); padding:10px 14px; border-bottom:1px solid #ffffff1a;
+  }
+  .ipo-table td{padding:14px 14px; border-bottom:1px solid #ffffff0d; color:var(--text-soft);}
+  .ipo-table tr:last-child td{border-bottom:none;}
+  .ipo-table td:first-child{color:var(--text); font-weight:600;}
+  .ipo-table .status{font-family:'JetBrains Mono',monospace; font-size:12.5px;}
+
+  /* ---------- Gaps / footer ---------- */
+  .gaps{padding:70px 0 100px;}
+  .gaps-box{
+    background:var(--surface); border:1px dashed #ffffff26; border-radius:10px;
+    padding:32px 34px; max-width:760px;
+  }
+  .gaps h3{font-size:18px; margin-bottom:14px; color:var(--text-soft);}
+  .gaps p{font-size:14.5px; color:var(--text-faint); line-height:1.7;}
+
+  footer{padding:40px 0 60px; border-top:1px solid #ffffff0d;}
+  footer p{font-size:12.5px; color:var(--text-faint); max-width:640px; line-height:1.7;}
+
+  ::selection{background:#4DD9FF33;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow"><span class="pulse"></span>SPANING · SEPTEMBER 2026</div>
+    <h1>Fyra segment som accelererar just nu, och vilka som <span class="accent">leder racet</span> inom var och en.</h1>
+    <p class="hero-sub">En bred genomgång av bolag och underliggande teknikskiften som visar tydlig fart — inte en färdig investeringsanalys, utan en karta att fortsätta gräva i själv.</p>
+    <p class="hero-note">Prioritet: bredd och färska signaler över fullständig verifiering. Där en siffra eller ett rykte är osäkert står det utskrivet som just det.</p>
+
+    <div class="spectrum">
+      <a href="#robotics" class="spectrum-cell" style="--seg-color:var(--robotics);">
+        <span class="spectrum-label">Embodied AI</span>
+        <span class="spectrum-stat mono">$8.6B</span>
+        <span class="spectrum-desc">in i humanoida robotar 2026 — 1,8x hela 2025</span>
+      </a>
+      <a href="#space" class="spectrum-cell" style="--seg-color:var(--space);">
+        <span class="spectrum-label">Orbital Compute</span>
+        <span class="spectrum-stat mono">$20.3B</span>
+        <span class="spectrum-desc">rymdfinansiering t.o.m. aug — redan årsrekord</span>
+      </a>
+      <a href="#quantum" class="spectrum-cell" style="--seg-color:var(--quantum);">
+        <span class="spectrum-label">Kvantdatorer</span>
+        <span class="spectrum-stat mono">Infra</span>
+        <span class="spectrum-desc">kapital skiftar mot felkorrigering, inte bara hårdvara</span>
+      </a>
+      <a href="#defense" class="spectrum-cell" style="--seg-color:var(--defense);">
+        <span class="spectrum-label">Försvarsteknik</span>
+        <span class="spectrum-stat mono">+500%</span>
+        <span class="spectrum-desc">Swarmers kursrörelse på börsdebuten</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEGMENT 1: ROBOTICS ============ -->
+<div class="segment" id="robotics" style="--seg-color:var(--robotics); --seg-dim:var(--robotics-dim);">
+  <div class="wrap">
+    <div class="segment-head">
+      <span class="segment-tag">01 — Embodied AI</span>
+      <h2>Humanoida robotar</h2>
+    </div>
+    <p class="segment-why">Den tydligaste accelerationssignalen i hela genomgången. Segmentet delar upp sig i två lager: bolag som bygger själva robotkropparna, och ett "hjärn"-lager av mjukvara som styr robotar oavsett tillverkare — en genuin picks-and-shovels-uppdelning värd att hålla isär.</p>
+    <p class="segment-signal">Humanoida robotstartups tog in <span class="mono">$8,6 miljarder</span> under 2026 — <span class="mono">1,8x</span> hela 2025 års totala summa, enligt Dealroom.</p>
+
+    <div class="companies">
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Physical Intelligence</span>
+          <span class="company-loc">San Francisco</span>
+          <span class="company-badge">"HJÄRNAN", INTE HÅRDVARAN</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Bygger inte robotar — bygger π0, en vision-language-action-modell som kan styra vilken robot som helst, oavsett tillverkare.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Ledning</span><span class="field-val">Karol Hausman (VD, ex-Google DeepMind), Sergey Levine (Berkeley-professor, pionjär deep RL), Chelsea Finn (Stanford-professor, uppfann MAML) — och <span class="hl">Lachy Groom, f.d. Stripe-exekutiv</span>, den operativa profilen bland akademikerna.</span></div>
+            <div class="field"><span class="field-label">Kapital</span><span class="field-val">$70M seed → $400M Series A ($2B) → $600M Series B ($5,6B) → <span class="hl">förhandlar om $1B vid $11B</span> med Founders Fund/Lightspeed.</span></div>
+            <div class="field"><span class="field-label">Backers</span><span class="field-val">OpenAI, Jeff Bezos personligen, NVIDIA, Sequoia, Khosla, Thrive, Lux Capital.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">NEURA Robotics</span>
+          <span class="company-loc">Tyskland</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Kognitiv robotplattform, en av de största enskilda europeiska robotikrundorna 2026.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Kapital</span><span class="field-val">Series C värd upp till <span class="hl">$1,4 miljarder</span>, ledd av Tether.</span></div>
+            <div class="field"><span class="field-label">Backers</span><span class="field-val">Amazon, Nvidia.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Figure AI</span>
+          <span class="company-loc">USA</span>
+          <span class="company-badge">IPO-BEVAKAD</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">BMW driftsätter Figure 03 på fabriken i Spartanburg efter en lyckad Figure 02-pilot — verklig kommersiell drift, inte bara pilotprojekt.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Signal</span><span class="field-val">Nämns återkommande på bevakningslistor för framtida börsnotering.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Apptronik</span>
+          <span class="company-loc">USA</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Utökade sin Series A till över $935M totalt.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Backers</span><span class="field-val">Google, Mercedes-Benz, John Deere, AT&T Ventures.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Mind Robotics</span>
+          <span class="company-loc">USA</span>
+          <span class="company-badge">RIVIAN-SPINOUT</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Har redan tagit in två finansieringsrundor under 2026. Grundarbakgrunden är själva anledningen att den är värd att kolla upp.</p>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Saronic</span>
+          <span class="company-loc">Austin</span>
+          <span class="company-badge">ANGRÄNSANDE: FÖRSVAR</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Autonoma marina farkoster — en av de största enskilda finansieringsrundorna 2026 totalt, i gränslandet mellan robotik och försvarsteknik.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEGMENT 2: SPACE ============ -->
+<div class="segment" id="space" style="--seg-color:var(--space); --seg-dim:var(--space-dim);">
+  <div class="wrap">
+    <div class="segment-head">
+      <span class="segment-tag">02 — Orbital Compute</span>
+      <h2>Rymdinfrastruktur</h2>
+    </div>
+    <p class="segment-why">En helt ny konvergenstrend, inte bara "rymd är hett" i största allmänhet: analytiker pekar specifikt ut orbital compute — datacenter i omloppsbana — som en ny AI-investeringskategori.</p>
+    <p class="segment-signal"><span class="mono">$20,3 miljarder</span> i global rymdfinansiering fram till augusti 2026 — redan årsrekord, med fyra månader kvar av året.</p>
+
+    <div class="companies">
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">K2 Space</span>
+          <span class="company-loc">Los Angeles</span>
+          <span class="company-badge">INFRASTRUKTURSPEL</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Bygger stora, billiga satellitplattformar ("bussar") som andra bolag bygger nyttolaster på.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Kapital</span><span class="field-val"><span class="hl">$500M Series D</span> (juli 2026).</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Orbital Operations</span>
+          <span class="company-loc">USA</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Utvecklar högtryckssatellitförsvar för att skydda GPS och militär kommunikation från motståndarhot.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Ledning</span><span class="field-val"><span class="hl">15+ kombinerade år</span> från NASA, Aerojet Rocketdyne, SpaceX, Blue Origin och Relativity Space — exakt den elitbakgrund inom rymdteknik som brukar föregå snabb tillväxt.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Turion Space</span>
+          <span class="company-loc">USA</span>
+          <span class="company-badge">SPACEX-ALUMNER</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Rymdlägesmedvetenhet, med sikte längre fram mot skräpsanering och asteroidbrytning.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Signal</span><span class="field-val">Grundarteamet kommer från SpaceX. Redan <span class="hl">$85M+</span> i avsiktsförklaringar (LOI).</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">TransAstra</span>
+          <span class="company-loc">USA</span>
+          <span class="company-badge">REDAN INTÄKTSDRIVANDE</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Återanvändbara satelliter för nollg-tillverkning och hypersonisk teknik.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Signal</span><span class="field-val">5 beviljade patent, redan <span class="hl">$5M+ i intäkter</span> — ovanligt för ett så tidigt bolag i sektorn.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Exosat</span>
+          <span class="company-loc">USA</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Tusentals lågkostnadssatelliter som "neutralt, suveränt alternativ till Starlink", helt utan ITAR/EAR-kontrollerat innehåll. Planerar sälja distribuerad beräkningskraft för låglatens-inferens åt robotar och autonoma fordon — en direkt bro till embodied AI-segmentet ovan.</p>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">York Space Systems</span>
+          <span class="company-loc">Denver</span>
+          <span class="company-badge">REDAN BÖRSNOTERAT</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Börsnoterades på NYSE (YSS) 29 januari 2026, tog in $629M. Köpte nyligen All.Space för $355M — ett tydligt konsolideringstecken i en annars ung sektor.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SEGMENT 3: QUANTUM ============ -->
+<div class="segment" id="quantum" style="--seg-color:var(--quantum); --seg-dim:var(--quantum-dim);">
+  <div class="wrap">
+    <div class="segment-head">
+      <span class="segment-tag">03 — Deep Tech</span>
+      <h2>Kvantdatorer</h2>
+    </div>
+    <p class="segment-why">Finansieringstakten är faktiskt något lägre 2026 än rekordåret 2025 — men det som driver kapitalet har moget skiftat mot infrastruktur och felkorrigering snarare än enbart hårdvarudemonstrationer. En mer intressant signal än ren hype.</p>
+    <p class="segment-signal">Kapital koncentreras kring <span class="mono">felkorrigering och kontrollsystem</span> — den kritiska komponenten alla kvantarkitekturer behöver, oavsett vilken fysisk qubit-teknik som till slut vinner.</p>
+
+    <div class="companies">
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Iceberg Quantum</span>
+          <span class="company-loc">Sydney</span>
+          <span class="company-badge">PRECIS UR STEALTH</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Bygger en teknikagnostisk felkorrigeringslösning (Pinnacle qLDPC) som fungerar oavsett vilken fysisk qubit-teknik som vinner racet — en genuin "kritisk komponent alla behöver"-position.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Kapital</span><span class="field-val"><span class="hl">$6M seed</span> (2026), LocalGlobe, Blackbird, DCVC.</span></div>
+            <div class="field"><span class="field-label">Partners</span><span class="field-val">Redan partnerskap med PsiQuantum, Diraq och IonQ.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Quantinuum</span>
+          <span class="company-loc">USA/UK</span>
+          <span class="company-badge">IPO-BEVAKAD</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Säkrade en förvärdering på $10 miljarder privat. Förväntas gå till börs på en nivå "betydligt över" det.</p>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">Photonic</span>
+          <span class="company-loc">Vancouver</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">9 år gammalt bolag med accelererande momentum snarare än ett helt nytt namn.</p>
+          <div class="company-fields">
+            <div class="field"><span class="field-label">Kapital</span><span class="field-val"><span class="hl">$200M</span>-runda, $2B värdering.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="company">
+        <div class="company-name-block">
+          <span class="company-name">QuantWare</span>
+          <span class="company-loc">Nederländerna</span>
+          <span class="company-badge">INFRASTRUKTURSPEL</span>
+        </div>
+        <div class="company-body">
+          <p class="company-desc">Bygger vad man själva kallar "världens största dedikerade öppna kvantarkitektur-fab" — ännu en infrastrukturposition snarare än ett enskilt hårdvaruspel.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="segment-why" style="margin-top:32px; font-size:14px;">Redan börsnoterade att jämföra mot: Infleqtion (NYSE: INFQ, första neutral-atom-bolaget att notera sig), IQM ($1,8B SPAC), Xanadu ($3,1B SPAC).</p>
+  </div>
+</div>
+
+<!-- ============ SEGMENT 4: DEFENSE ============ -->
+<div class="segment" id="defense" style="--seg-color:var(--defense); --seg-dim:var(--defense-dim);">
+  <div class="wrap">
+    <div class="segment-head">
+      <span class="segment-tag">04 — National Security</span>
+      <h2>Försvarsteknik</h2>
+    </div>
+    <p class="segment-why">Bredare än bara rymd, och med det tydligaste IPO-suget av alla fyra segment. Takten har i praktiken fördubblats jämfört med föregående helår.</p>
+    <p class="segment-signal"><span class="mono">107</span> riskkapitalrundor redan gjorda 2026 — jämfört med <span class="mono">206</span> för hela 2025. Ett mindre bolag, Swarmer (AI-drönare), steg <span class="mono">över 500%</span> på sin första handelsdag.</p>
+
+    <table class="ipo-table">
+      <thead>
+        <tr><th>Bolag</th><th>Segment</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Anduril</td><td>Försvar / AI</td><td class="status">Mest omtalad kandidat, $30,5B privat värdering</td></tr>
+        <tr><td>Sierra Space</td><td>Rymd (Dream Chaser)</td><td class="status">The Information: möjlig notering före årsskiftet</td></tr>
+        <tr><td>Karman Holdings</td><td>Missilteknik</td><td class="status">Konfidentiell ansökan, ~$3B+ värdering</td></tr>
+        <tr><td>Voyager Technologies</td><td>Rymd / försvar</td><td class="status">Konfidentiell ansökan, $2–3B intervall</td></tr>
+        <tr><td>Crusoe Energy Systems</td><td>AI-infrastruktur (energi)</td><td class="status">Crunchbase: "sannolik" notering, $1,4B Series E</td></tr>
+        <tr><td>Dataiku</td><td>AI-dataanalys</td><td class="status">Anlitat Morgan Stanley/Citigroup, möjlig H1 2026</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="gaps">
+  <div class="wrap">
+    <div class="gaps-box">
+      <h3>Vad jag inte hann gräva i</h3>
+      <p>Segment jag identifierade som möjligen relevanta men inte fick tid att fördjupa: syntetisk biologi/longevity, flygtaxi/eVTOL specifikt, fusionsenergi (Helion/Microsoft-affären dök upp men undersöktes inte djupare), samt en dedikerad koll på nischade insider-nyhetsbrev som källtyp. Det här är en ärlig lucka i researchen, inte en bedömning att de är mindre intressanta.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Sammanställt som en bred spaning, inte en verifierad investeringsanalys. Prioritet har varit att hitta många intressanta trådar snarare än att verifiera varje siffra — använd det som en startpunkt för egen fördjupning.</p>
+  </div>
+</footer>
+
+</body>
+</html>
